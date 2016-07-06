@@ -17,6 +17,7 @@
                  [org.clojure/clojurescript "1.9.92"
                   :scope "provided"]
                  [secretary "1.2.3"]
+                 [com.datomic/datomic-pro "0.9.5385"]
                  [venantius/accountant "0.1.7"
                   :exclusions [org.clojure/tools.reader]]]
 

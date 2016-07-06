@@ -1,0 +1,15 @@
+; test data
+;; author
+[{:db/id #db/id[:db.part/feed -1]
+  :author/firstName "Davin"
+  :author/lastName "Tryon"
+  :author/email "davintryon@gmail.com"}]
+
+;; posts
+[{:db/id #db/id[:db.part/feed -2]
+  :post/title "First Post"
+  :post/subtitle "first subtitle"
+  :post/body "and this is the first body with some `code`"
+  :post/author #db/id[:db.part/feed -1]}]
+
+
