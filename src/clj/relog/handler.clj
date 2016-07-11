@@ -6,11 +6,7 @@
             [config.core :refer [env]]))
 
 (def mount-target
-  [:div#app
-      [:h3 "ClojureScript has not been compiled!"]
-      [:p "please run "
-       [:b "lein figwheel"]
-       " in order to start the compiler"]])
+  [:div#app])
 
 (defn head []
   [:head
@@ -29,9 +25,9 @@
 
 (defroutes routes
   (GET "/" [] loading-page)
-  (GET "/about" [] loading-page)
+  (GET "/hello/:name" [name] (str "hello there " name ", you well?"))
   
   (resources "/")
-  (not-found "Not Found"))
+  (not-found loading-page))
 
 (def app (wrap-middleware #'routes))

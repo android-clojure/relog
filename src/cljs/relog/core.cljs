@@ -27,6 +27,9 @@
 (secretary/defroute "/about" []
   (session/put! :current-page #'about-page))
 
+(secretary/defroute "/foo" []
+  (session/put! :current-page #'about-page))
+
 ;; -------------------------
 ;; Initialize app
 
