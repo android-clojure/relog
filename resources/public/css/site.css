@@ -5,11 +5,16 @@
 /*
  * base
  */
-
 @import url('/css/reset.css');
 @import url('/css/fonts.css');
 @import url('/css/base.css');
 @import url('/css/grid.css');
+
+/*
+ * plugins
+ */
+
+@import url('/css/highlight-default.css');
 
 
 /*

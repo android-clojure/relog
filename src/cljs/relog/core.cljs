@@ -3,9 +3,16 @@
               [reagent.session :as session]
               [secretary.core :as secretary :include-macros true]
               [accountant.core :as accountant]
-              [relog.feed :as feed :refer [Feed]]))
+              [relog.feed :as feed :refer [Feed]]
+              [cljsjs.marked]
+              [cljsjs.highlight]
+              [cljsjs.highlight.langs.javascript]))
 
-;; -------------------------
+(.initHighlightingOnLoad js/hljs)
+(.setOptions js/marked #js { "highlight" (fn [code] (do (.log js/console (.highlightAuto js/hljs code))
+                                                        (.-value (.highlightAuto js/hljs code))))})
+
+;; -------------------------k
 ;; Views
 
 (defn home-page []

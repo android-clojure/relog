@@ -19,7 +19,9 @@
                  [secretary "1.2.3"]
                  [com.datomic/datomic-pro "0.9.5385"]
                  [venantius/accountant "0.1.7"
-                  :exclusions [org.clojure/tools.reader]]]
+                  :exclusions [org.clojure/tools.reader]]
+                 [cljsjs/marked "0.3.5-0"]
+                 [cljsjs/highlight "8.4-0"]]
 
   :plugins [[lein-environ "1.0.2"]
             [lein-cljsbuild "1.1.1"]
