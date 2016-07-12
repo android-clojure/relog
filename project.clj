@@ -77,7 +77,7 @@
    :nrepl-port 7002
    :nrepl-middleware ["cemerick.piggieback/wrap-cljs-repl"
                       ]
-   :css-dirs ["resources/public/css" "src/cljs/relog/components"]
+   :css-dirs ["resources/public/css"]
    :ring-handler relog.handler/app}
 
 
