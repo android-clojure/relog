@@ -2,14 +2,14 @@
     (:require [reagent.core :as reagent :refer [atom]]
               [reagent.session :as session]
               [secretary.core :as secretary :include-macros true]
-              [accountant.core :as accountant]))
+              [accountant.core :as accountant]
+              [relog.feed :as feed :refer [Feed]]))
 
 ;; -------------------------
 ;; Views
 
 (defn home-page []
-  [:div [:h2 "Welcome to relog"]
-   [:div [:a {:href "/about"} "go to about page"]]])
+  [feed/Feed])
 
 (defn about-page []
   [:div [:h2 "About relog"]
@@ -25,9 +25,6 @@
   (session/put! :current-page #'home-page))
 
 (secretary/defroute "/about" []
-  (session/put! :current-page #'about-page))
-
-(secretary/defroute "/foo" []
   (session/put! :current-page #'about-page))
 
 ;; -------------------------
