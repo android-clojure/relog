@@ -67,9 +67,6 @@
               :source-map true
               :optimizations :none
               :pretty-print  true}}
-
-
-
             }
    }
 
@@ -80,7 +77,7 @@
    :nrepl-port 7002
    :nrepl-middleware ["cemerick.piggieback/wrap-cljs-repl"
                       ]
-   :css-dirs ["resources/public/css"]
+   :css-dirs ["resources/public/css" "src/cljs/relog/components"]
    :ring-handler relog.handler/app}
 
 

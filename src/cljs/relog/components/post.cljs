@@ -26,8 +26,8 @@
     ;(.setOptions js/marked #js{ "hightlight" #(.-value
                                             ; (do (.log js/console "highlighting")
                                             ;    (.highlightAuto js/hljs %)))})
-    [:div
-     [:div {:dangerouslySetInnerHTML 
+    [:div {:class "Post"}
+     [:div {:class "Post_content" :dangerouslySetInnerHTML 
             {:__html (js/marked samplePost)} }]]))
 
 

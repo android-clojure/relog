@@ -1,0 +1,12 @@
+/*
+ * footer
+ */
+
+.Footer {
+    height: 90px;
+}
+
+.Footer-text {
+    text-align: center;
+    line-height: 90px;
+}

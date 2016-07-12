@@ -16,9 +16,10 @@
 
 @import url('/css/highlight-default.css');
 
-
 /*
  * components
  */
 
-
+@import url('/css/components/header.css');
+@import url('/css/components/footer.css');
+@import url('/css/components/post.css');

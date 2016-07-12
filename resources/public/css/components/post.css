@@ -1,0 +1,17 @@
+/*
+ * post (includes markdown styles)
+ */
+
+
+.Post h1 {
+    font-size: 3em;
+}
+
+.Post em {
+    font-style: italic;
+}
+
+.Post p {
+    margin: 10px;
+}
+

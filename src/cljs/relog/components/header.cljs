@@ -2,4 +2,4 @@
   (:require [reagent.core :as r]))
 
 (defn Header []
-  [:header [:h2 "RELOG"]])
+  [:header {:class "Header"} [:h2 {:class "Header-title"} "RELOG"]])
