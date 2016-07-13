@@ -18,10 +18,6 @@
 (defn home-page []
   [feed/Feed])
 
-(defn about-page []
-  [:div [:h2 "About relog"]
-   [:div [:a {:href "/"} "go to the home page"]]])
-
 (defn current-page []
   [:div [(session/get :current-page)]])
 
@@ -30,9 +26,6 @@
 
 (secretary/defroute "/" []
   (session/put! :current-page #'home-page))
-
-(secretary/defroute "/about" []
-  (session/put! :current-page #'about-page))
 
 ;; -------------------------
 ;; Initialize app
