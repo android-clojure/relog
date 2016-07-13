@@ -7,5 +7,8 @@
 (defn Feed []
   [:div
    [header/Header]
-   [post/Post]
+   [:div {:class "grid grid-row"}
+    [:div {:class "grid-col-xs-12 grid-col-md-8"}
+     [post/Post]]
+    [:div {:class "grid-col-xs-12 grid-col-md-4"}]]
    [footer/Footer]])
