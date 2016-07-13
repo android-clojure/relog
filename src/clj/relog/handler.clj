@@ -1,6 +1,7 @@
 (ns relog.handler
   (:require [compojure.core :refer [GET defroutes]]
             [compojure.route :refer [not-found resources]]
+            [clojure.data.json :as json]
             [hiccup.page :refer [include-js include-css html5]]
             [relog.middleware :refer [wrap-middleware]]
             [config.core :refer [env]]))
@@ -26,7 +27,8 @@
 (defroutes routes
   (GET "/" [] loading-page)
   (GET "/hello/:name" [name] (str "hello there " name ", you well?"))
-  
+
+  (GET "/api/feed" [] (json/write-str {:some "map" :of "values"}))
   (resources "/")
   (not-found loading-page))
 

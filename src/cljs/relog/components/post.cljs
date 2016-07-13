@@ -22,10 +22,6 @@
 
 (defn Post []
   (fn []
-    (.log js/console "rendering post")
-    ;(.setOptions js/marked #js{ "hightlight" #(.-value
-                                            ; (do (.log js/console "highlighting")
-                                            ;    (.highlightAuto js/hljs %)))})
     [:div {:class "Post"}
      [:div {:class "Post_content" :dangerouslySetInnerHTML 
             {:__html (js/marked samplePost)} }]]))

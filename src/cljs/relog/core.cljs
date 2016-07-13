@@ -9,10 +9,9 @@
               [cljsjs.highlight.langs.javascript]))
 
 (.initHighlightingOnLoad js/hljs)
-(.setOptions js/marked #js { "highlight" (fn [code] (do (.log js/console (.highlightAuto js/hljs code))
-                                                        (.-value (.highlightAuto js/hljs code))))})
+(.setOptions js/marked #js { "highlight" #(.-value (.highlightAuto js/hljs %))})
 
-;; -------------------------k
+;; -------------------------
 ;; Views
 
 (defn home-page []

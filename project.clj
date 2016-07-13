@@ -20,6 +20,8 @@
                  [com.datomic/datomic-pro "0.9.5385"]
                  [venantius/accountant "0.1.7"
                   :exclusions [org.clojure/tools.reader]]
+                 [cljs-http  "0.1.41"]
+                 [org.clojure/data.json  "0.2.6"]
                  [cljsjs/marked "0.3.5-0"]
                  [cljsjs/highlight "8.4-0"]]
 
