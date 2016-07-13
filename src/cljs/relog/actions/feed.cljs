@@ -4,6 +4,11 @@
             [cljs-http.client :as http]
             [cljs.core.async :refer  [<!]]))
 
-(defn fetchFeed []
+(def posts (r/atom []))
+
+(defn fetchFeed [p]
   (go (let [response (<! (http/get "http://localhost:3000/api/feed"))]
-      (prn  (aget (JSON/parse (:body response)) "some")))))
+      (let [json (JSON/parse (:body response))]
+        (reset! p (js->clj json))))))
+
+(fetchFeed posts)

@@ -23,12 +23,27 @@
      mount-target
      (include-js "/js/app.js")]))
 
+(def feedResponse [{:post {:body "# Markdown test
+
+  Some random test markdown. *Italics.*
+
+  ```javascript
+  function foo ()  {
+    var bar = 'baz';
+    return  {
+     test: true;
+    }
+  }
+  ```
+
+  More text." :publishDate "2016-07-01T00:00:00Z"}}])
 
 (defroutes routes
   (GET "/" [] loading-page)
   (GET "/hello/:name" [name] (str "hello there " name ", you well?"))
 
-  (GET "/api/feed" [] (json/write-str {:some "map" :of "values"}))
+  (GET "/api/feed" [] (json/write-str feedResponse))
+
   (resources "/")
   (not-found loading-page))
 
