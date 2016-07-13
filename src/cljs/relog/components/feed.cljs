@@ -6,11 +6,12 @@
             [relog.post :as post :refer [Post]]))
 
 (defn Feed []
+  (fn []
   [:div
    [header/Header]
    [:div {:class "grid grid-row"}
     [:div {:class "grid-col-xs-12 grid-col-md-8"}
      (for  [post @actions/posts]
-      ^{:key post} [post/Post {:body (-> post :post :body)}])]
+      ^{:key post} [post/Post (-> post :post :body)])]
     [:div {:class "grid-col-xs-12 grid-col-md-4"}]]
-   [footer/Footer]])
+   [footer/Footer]]))

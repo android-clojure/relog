@@ -9,6 +9,6 @@
 (defn fetchFeed [p]
   (go (let [response (<! (http/get "http://localhost:3000/api/feed"))]
       (let [json (JSON/parse (:body response))]
-        (reset! p (js->clj json))))))
+        (reset! p (js->clj json :keywordize-keys true))))))
 
 (fetchFeed posts)
