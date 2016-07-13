@@ -23,7 +23,8 @@
      mount-target
      (include-js "/js/app.js")]))
 
-(def feedResponse [{:post {:body "# Markdown test
+(def feedResponse [
+                   {:body "# Markdown test
 
   Some random test markdown. *Italics.*
 
@@ -36,7 +37,22 @@
   }
   ```
 
-  More text." :publishDate "2016-07-01T00:00:00Z"}}])
+  More text." :publishDate "2016-07-01T00:00:00Z"}
+                   {:body "# Markdown test 2
+
+  Some random test markdown. *Italics.*
+
+  ```javascript
+  function foo ()  {
+    var bar = 'baz';
+    return  {
+     test: true;
+    }
+  }
+  ```
+
+  More text." :publishDate "2016-07-02T00:00:00Z"}
+                   ])
 
 (defroutes routes
   (GET "/" [] loading-page)
