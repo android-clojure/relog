@@ -12,3 +12,8 @@
             (c/read-resource "initialSchema.edn")
             [:relog/relog-schema1])))
 
+(defn seed []
+  (println (c/ensure-conforms
+             (d/connect uri)
+             (c/read-resource "seed.edn")
+             [:relog/relog-seed1])))

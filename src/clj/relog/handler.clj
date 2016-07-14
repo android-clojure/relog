@@ -24,20 +24,7 @@
      (include-js "/js/app.js")]))
 
 (def feedResponse [
-                   {:body "# Markdown test
-
-  Some random test markdown. *Italics.*
-
-  ```javascript
-  function foo ()  {
-    var bar = 'baz';
-    return  {
-     test: true;
-    }
-  }
-  ```
-
-  More text." :publishDate "2016-07-01T00:00:00Z"}
+                   {:body "# Markdown test\n\nSome random test markdown. *Italics.*\n\n```javascript\nfunction foo () {\n    var bar = 'baz';\n    return {\n        test: true;\n    }\n}```\nMore text." :publishDate "2016-07-01T00:00:00Z"}
                    {:body "# Markdown test 2
 
   Some random test markdown. *Italics.*

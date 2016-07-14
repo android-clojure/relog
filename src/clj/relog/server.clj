@@ -11,6 +11,9 @@
 
  (defn -main [cmd]
    (cond
+     (= cmd "server") (let [port (Integer/parseInt (or (env :port) "3000"))]
+                        (run-jetty app {:port port :join? false})
+                        (println (str "Server running on port " port "...")))
      (= cmd "db/migrate") (final (println (db-tasks/install-schema)))
-     :else (let [port (Integer/parseInt (or (env :port) "3000"))]
-             (run-jetty app {:port port :join? false}))))
+     (= cmd "db/seed") (final (println (db-tasks/seed)))
+     :else (println "task not found")))

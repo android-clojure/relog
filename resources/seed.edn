@@ -1,12 +1,11 @@
 ; test data
 ;; author and first post
-[{:db/id #db/id[:db.part/user -1]
-  :author/firstName "Davin"
-  :author/lastName "Tryon"
-  :author/email "davintryon@gmail.com"}
-{:db/id #db/id[:db.part/user]
-  :post/body "and this is the first body with some `code`"
-  :post/author #db/id[:db.part/user -1]}]
-
-
+{:relog/relog-seed1
+ {:txes [[{:db/id #db/id[:db.part/user -1]
+      :author/firstName "Davin"
+      :author/lastName "Tryon"
+      :author/email "davintryon@gmail.com"}
+    {:db/id #db/id[:db.part/user]
+      :post/body "# Markdown test\n\nSome random test markdown. *Italics.*\n\n```javascript\nfunction foo () {\n    var bar = 'baz';\n    return {\n        test: true;\n    }\n}```\nMore text."
+      :post/author #db/id[:db.part/user -1]}]]}}
 
