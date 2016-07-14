@@ -93,12 +93,11 @@
                                   [figwheel-sidecar "0.5.4-4"]
                                   [org.clojure/tools.nrepl "0.2.12"]
                                   [com.cemerick/piggieback "0.2.2-SNAPSHOT"]
-                                  [pjstadig/humane-test-output "0.8.0"]
-                                  ]
+                                  [pjstadig/humane-test-output "0.8.0"]]
 
                    :source-paths ["env/dev/clj"]
-                   :plugins [[lein-figwheel "0.5.4-4"]
-                             ]
+                   :plugins [[lein-figwheel "0.5.4-4"]]
+                   :resource-paths ["config/dev"]
 
                    :injections [(require 'pjstadig.humane-test-output)
                                 (pjstadig.humane-test-output/activate!)]

@@ -3,8 +3,7 @@
             [io.rkn.conformity :as c]
             [datomic.api :as d]))
 
-(def uri "datomic:dev://localhost:4334/relog")
-(d/create-database uri)
+(d/create-database (:db-uri env))
 
 (defn install-schema []
   (println (c/ensure-conforms
