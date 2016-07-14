@@ -4,6 +4,7 @@
             [clojure.data.json :as json]
             [hiccup.page :refer [include-js include-css html5]]
             [relog.middleware :refer [wrap-middleware]]
+            [relog.db.query :as q]
             [config.core :refer [env]]))
 
 (def mount-target
@@ -23,29 +24,9 @@
      mount-target
      (include-js "/js/app.js")]))
 
-(def feedResponse [
-                   {:body "# Markdown test\n\nSome random test markdown. *Italics.*\n\n```javascript\nfunction foo () {\n    var bar = 'baz';\n    return {\n        test: true;\n    }\n}```\nMore text." :publishDate "2016-07-01T00:00:00Z"}
-                   {:body "# Markdown test 2
-
-  Some random test markdown. *Italics.*
-
-  ```javascript
-  function foo ()  {
-    var bar = 'baz';
-    return  {
-     test: true;
-    }
-  }
-  ```
-
-  More text." :publishDate "2016-07-02T00:00:00Z"}
-                   ])
-
 (defroutes routes
   (GET "/" [] loading-page)
-  (GET "/hello/:name" [name] (str "hello there " name ", you well?"))
-
-  (GET "/api/feed" [] (json/write-str feedResponse))
+  (GET "/api/feed" [] (json/write-str (q/getPosts)))
 
   (resources "/")
   (not-found loading-page))
