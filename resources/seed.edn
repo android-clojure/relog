@@ -5,9 +5,8 @@
   :author/lastName "Tryon"
   :author/email "davintryon@gmail.com"}
 {:db/id #db/id[:db.part/user]
-  :post/title "First Post"
-  :post/subtitle "first subtitle"
   :post/body "and this is the first body with some `code`"
   :post/author #db/id[:db.part/user -1]}]
+
 
 

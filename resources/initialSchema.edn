@@ -1,0 +1,41 @@
+{:relog/relog-schema1
+ {:txes [
+      ;; posts
+      [{:db/id #db/id[:db.part/db]
+        :db/ident :post/body
+        :db/valueType :db.type/string
+        :db/cardinality :db.cardinality/one
+        :db.install/_attribute :db.part/db}
+       {:db/id #db/id[:db.part/db]
+        :db/ident :post/author
+        :db/valueType :db.type/ref
+        :db/cardinality :db.cardinality/one
+        :db.install/_attribute :db.part/db}]
+
+      ;; authors
+      [{:db/id #db/id[:db.part/db]
+        :db/ident :author/firstName
+        :db/valueType :db.type/string
+        :db/cardinality :db.cardinality/one
+        :db/fulltext true
+        :db/index true
+        :db.install/_attribute :db.part/db}
+       {:db/id #db/id[:db.part/db]
+        :db/ident :author/lastName
+        :db/valueType :db.type/string
+        :db/cardinality :db.cardinality/one
+        :db/fulltext true
+        :db/index true
+        :db.install/_attribute :db.part/db}
+       {:db/id #db/id[:db.part/db]
+        :db/ident :author/email
+        :db/valueType :db.type/string
+        :db/cardinality :db.cardinality/one
+        :db/unique :db.unique/identity
+        :db.install/_attribute :db.part/db}]]}}
+
+
+
+
+
+
