@@ -25,9 +25,16 @@
      mount-target
      (include-js "/js/app.js")]))
 
+(defn my-value-writer [key value]
+  (if (= key :date)
+    (str (java.sql.Timestamp. (.getTime value)))
+    value))
+
 (defroutes routes
   (GET "/" [] loading-page)
-  (GET "/api/feed" [] (json/write-str (q/getPosts)))
+  (GET "/api/feed" [] (json/write-str (q/getPosts)
+                                      :value-fn my-value-writer
+                                      :key-fn name))
 
   (resources "/")
   (not-found loading-page))

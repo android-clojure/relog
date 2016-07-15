@@ -3,7 +3,8 @@
             [io.rkn.conformity :as c]
             [datomic.api :as d]))
 
-(d/create-database (:db-uri env))
+(def uri (:db-uri env))
+(d/create-database uri)
 
 (defn install-schema []
   (println (c/ensure-conforms
