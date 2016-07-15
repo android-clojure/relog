@@ -23,7 +23,7 @@
            [:div {:class "grid grid-row"}
             [:div {:class "grid-col-xs-12 grid-col-md-8"}
              (for  [post @feed]
-              ^{:key post} [post/Post (:body post) (:date post)])]
+              ^{:key post} [post/Post (:body post) (:date post) (str (:firstName post) " " (:lastName post))])]
             [:div {:class "grid-col-xs-12 grid-col-md-4"}]]
            [footer/Footer]])})))
 
