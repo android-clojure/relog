@@ -45,5 +45,4 @@
        (secretary/locate-route path))})
   (accountant/dispatch-current!)
   (dispatch-sync [:initialize-db])
-  (dispatch [:fetch-feed]) ;; not sure where to put this at the moment
   (mount-root))
