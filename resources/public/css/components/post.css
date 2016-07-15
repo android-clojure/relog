@@ -2,6 +2,9 @@
  * post (includes markdown styles)
  */
 
+.Post {
+    padding: 20px;
+}
 
 .Post h1 {
     font-size: 3em;
@@ -18,5 +21,19 @@
 .Post pre {
     background-color: #EBEBEB;
     padding: 15px 15px;
+}
+
+.Post_header {
+    margin-bottom: 15px;
+}
+
+.Post_author {
+    font-size: 1.3em;
+}
+
+.Post_date {
+    font-size: 0.8em;
+    text-align: right;
+    vertical-align: baseline;
 }
 

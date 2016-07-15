@@ -24,6 +24,7 @@
                   :exclusions [org.clojure/tools.reader]]
                  [cljs-http  "0.1.41"]
                  [org.clojure/data.json  "0.2.6"]
+                 [cljsjs/moment  "2.10.6-4"]
                  [cljsjs/marked "0.3.5-0"]
                  [cljsjs/highlight "8.4-0"]]
 

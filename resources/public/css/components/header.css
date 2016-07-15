@@ -4,9 +4,11 @@
 
 .Header {
     height: 70px;
+    padding: 20px;
 }
 
 .Header-title {
     font-size: 2em;
+    letter-spacing: 10px;
 }
 
