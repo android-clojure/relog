@@ -3,7 +3,10 @@
               [reagent.session :as session]
               [secretary.core :as secretary :include-macros true]
               [accountant.core :as accountant]
+              [re-frame.core :refer [dispatch-sync, dispatch]]
               [relog.feed :as feed :refer [Feed]]
+              [relog.handlers.init]
+              [relog.handlers.feed]
               [cljsjs.marked]
               [cljsjs.highlight]
               [cljsjs.highlight.langs.javascript]))
@@ -41,4 +44,6 @@
      (fn [path]
        (secretary/locate-route path))})
   (accountant/dispatch-current!)
+  (dispatch-sync [:initialize-db])
+  (dispatch [:fetch-feed]) ;; not sure where to put this at the moment
   (mount-root))
