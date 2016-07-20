@@ -5,6 +5,7 @@
               [accountant.core :as accountant]
               [re-frame.core :refer [dispatch-sync, dispatch]]
               [relog.feed :as feed :refer [Feed]]
+              [relog.editor :as editor :refer [Editor]]
               [relog.handlers.init]
               [relog.handlers.feed]
               [cljsjs.marked]
@@ -20,6 +21,9 @@
 (defn home-page []
   [feed/Feed])
 
+(defn editor []
+  [editor/Editor])
+
 (defn current-page []
   [:div [(session/get :current-page)]])
 
@@ -28,6 +32,9 @@
 
 (secretary/defroute "/" []
   (session/put! :current-page #'home-page))
+
+(secretary/defroute "/editor" []
+  (session/put! :current-page #'editor))
 
 ;; -------------------------
 ;; Initialize app
