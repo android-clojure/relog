@@ -1,0 +1,21 @@
+/*
+ * Markdown styles
+ */
+
+.Markdown h1 {
+    font-size: 3em;
+}
+
+.Markdown em {
+    font-style: italic;
+}
+
+.Markdown p {
+    margin: 10px 0;
+}
+
+.Markdown pre {
+    background-color: #EBEBEB;
+    padding: 15px 15px;
+}
+

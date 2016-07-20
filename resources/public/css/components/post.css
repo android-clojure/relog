@@ -1,26 +1,9 @@
 /*
- * post (includes markdown styles)
+ * post
  */
 
 .Post {
     padding: 20px;
-}
-
-.Post h1 {
-    font-size: 3em;
-}
-
-.Post em {
-    font-style: italic;
-}
-
-.Post p {
-    margin: 10px 0;
-}
-
-.Post pre {
-    background-color: #EBEBEB;
-    padding: 15px 15px;
 }
 
 .Post_header {

@@ -6,7 +6,7 @@
 (defn Post [body date authorName]
   (fn [body date authorName]
     (let [formattedDate (-> date js/moment (.format "LLL"))]
-    [:div {:class "Post"}
+    [:div {:class "Post Markdown"}
      [:div {:class "Post_header grid grid-row"}
        [:div {:class "Post_author grid-col-xs-12 grid-col-md-6"} authorName]
        [:div {:class "Post_date grid-col-xs-12 grid-col-md-6"} formattedDate]]
