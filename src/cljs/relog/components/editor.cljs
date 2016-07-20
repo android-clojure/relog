@@ -9,13 +9,15 @@
 
 (defn onChange [e]
   (let [content (.-innerHTML (r/dom-node e.target))]
-    (reset! markdown content)))
+    (.log js/console e.target.value)
+    (reset! markdown e.target.value)))
+
+
 
 (defn Editor []
   (fn []
     [:div {:className "Editor grid grid-row"}
-      [:div {:className "Editor_markdown grid-col-xs-6" :contentEditable true
-             :onInput onChange
-             :dangerouslySetInnerHTML {:__html @markdown}}]
+      [:div {:className "Editor_markdown grid-col-xs-6"}
+       [:textArea {:className "Editor_markdown_area" :onChange onChange} @markdown]]
       [:div {:className "Editor_rendered Markdown grid-col-xs-6"
              :dangerouslySetInnerHTML {:__html (js/marked @markdown)}}]]))
