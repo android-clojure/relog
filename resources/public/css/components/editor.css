@@ -6,6 +6,28 @@
 
 }
 
+.Editor_header {
+    background-color: #444444;
+    padding: 5px;
+}
+
+.Editor_header button {
+    height: 35px;
+    padding: 5px 10px;
+    border: 1px solid #DDDDDD;
+    background-color: #DADADA;
+    border-radius: 2px;
+    font-size: 0.9em;
+}
+
+.Editor_header_tools {
+    padding: 0 10px;
+}
+
+.Editor_header_actions {
+    padding: 0 10px;
+}
+
 .Editor_markdown {
 
 }
