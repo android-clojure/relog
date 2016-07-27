@@ -27,6 +27,16 @@
 
 .Editor_header_actions {
     padding: 0 10px;
+    position: relative;
+}
+
+.Editor_post_names {
+    display: none;
+    position: absolute;
+}
+
+.Editor_post_names.active {
+    display: block;
 }
 
 .Editor_markdown {

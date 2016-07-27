@@ -1,7 +1,7 @@
 (ns relog.handlers.editor
   (:require-macros [cljs.core.async.macros :refer  [go]])
   (:require [reagent.core :as r]
-            [re-frame.core :refer [def-event dispatch]]
+            [re-frame.core :refer [def-event dispatch path trim-v]]
             [cljs-http.client :as http]
             [cljs.core.async :refer  [<!]]))
 
@@ -18,5 +18,19 @@
   (fn [db [_ feedResponse]]
   (-> db
       (assoc :posts feedResponse))))
+
+(def modal-middleware [(path :modals) trim-v])
+
+(def-event
+  :modal-open
+  modal-middleware
+  (fn [modals [name]]
+    (conj modals name)))
+
+(def-event
+  :modal-close
+  modal-middleware
+  (fn [modals [name]]
+    (disj modals name)))
 
 

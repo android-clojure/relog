@@ -11,31 +11,44 @@
     [db _]
     (:posts db)))
 
+(def-sub
+  :modals
+  (fn
+    [db _]
+    (:modals db)))
+
 (def markdown (r/atom "## Some Markdown"))
 
 (defn onChange [e]
   (reset! markdown e.target.value))
 
 (defn onLoad []
-  (dispatch [:fetch-all-posts]))
+  (do (dispatch [:fetch-all-posts])
+      (dispatch [:modal-open "post_names"])))
+
+(defn closeModal [name]
+  (dispatch [:modal-close name]))
 
 (defn Editor []
-  (let [posts (subscribe [:posts])]
+  (let [posts (subscribe [:posts])
+        modals (subscribe [:modals])]
     (fn []
-      [:div {:className "Editor grid"}
-        [:div {:className "Editor_header grid-row"}
-          [:div {:className "Editor_header_tools grid-col-xs-6"}
-           [:button "B"]]
-          [:div {:className "Editor_header_actions grid-col-xs-6"}
-           [:button "Save..."]
-           [:button {:onClick onLoad} "Load..."]
-           [:div {:className "Editor_post_names"}
-            (for [post @posts]
-              ^{:key post} [:p (:name post)])]]]
-        [:div {:className "Editor_surface grid-row"}
-          [:div {:className "Editor_markdown grid-col-xs-6"}
-           [:textArea {:className "Editor_markdown_area"
-                       :onChange onChange
-                       :defaultValue @markdown}]]
-          [:div {:className "Editor_rendered Markdown grid-col-xs-6"
-                 :dangerouslySetInnerHTML {:__html (js/marked @markdown)}}]]])))
+      (let [postNamesClass (if (contains? @modals "post_names") " active" "")]
+        [:div {:className "Editor grid"}
+          [:div {:className "Editor_header grid-row"}
+            [:div {:className "Editor_header_tools grid-col-xs-6"}
+             [:button "B"]]
+            [:div {:className "Editor_header_actions grid-col-xs-6"}
+             [:button "Save..."]
+             [:button {:onClick onLoad} "Load..."]
+             [:div {:className (str "Editor_post_names" postNamesClass)}
+              (for [post @posts]
+                ^{:key post} [:p (:name post)])
+              [:button {:onClick #(closeModal "post_names")} "X Close"]]]]
+          [:div {:className "Editor_surface grid-row"}
+            [:div {:className "Editor_markdown grid-col-xs-6"}
+             [:textArea {:className "Editor_markdown_area"
+                         :onChange onChange
+                         :defaultValue @markdown}]]
+            [:div {:className "Editor_rendered Markdown grid-col-xs-6"
+                   :dangerouslySetInnerHTML {:__html (js/marked @markdown)}}]]]))))
