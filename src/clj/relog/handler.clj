@@ -36,6 +36,10 @@
                                       :value-fn my-value-writer
                                       :key-fn name))
 
+  (GET "/api/posts" [] (json/write-str (q/getPostNames)
+                                       :value-fn my-value-writer
+                                       :key-fn name))
+
   (resources "/")
   (not-found loading-page))
 

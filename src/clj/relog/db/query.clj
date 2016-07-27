@@ -15,3 +15,13 @@
        db)
        (map #(zipmap [:id :body :firstName :lastName :date] %))
        (sort-by :tx)))
+
+(defn getPostNames []
+  (def conn (d/connect (:db-uri env)))
+  (def db (d/db conn))
+  (->> (d/q '[:find ?post ?name ?date
+         :where [?post :post/name ?name ?tx]
+                [?tx :db/txInstant ?date]]
+       db)
+       (map #(zipmap [:id :name :date] %))
+       (sort-by :tx)))

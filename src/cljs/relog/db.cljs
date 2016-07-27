@@ -1,3 +1,3 @@
 (ns relog.db)
 
-(def initial-state {:feed []})
+(def initial-state {:feed [] :posts []})

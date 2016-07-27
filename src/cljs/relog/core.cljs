@@ -8,6 +8,7 @@
               [relog.editor :as editor :refer [Editor]]
               [relog.handlers.init]
               [relog.handlers.feed]
+              [relog.handlers.editor]
               [cljsjs.marked]
               [cljsjs.highlight]
               [cljsjs.highlight.langs.javascript]))

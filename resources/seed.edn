@@ -6,6 +6,6 @@
       :author/lastName "Tryon"
       :author/email "davintryon@gmail.com"}
     {:db/id #db/id[:db.part/user]
+      :post/name "First post"
       :post/body "# Markdown test\n\nSome random test markdown. *Italics.*\n\n```javascript\nfunction foo () {\n    var bar = 'baz';\n    return {\n        test: true;\n    }\n}```\nMore text."
       :post/author #db/id[:db.part/user -1]}]]}}
-
