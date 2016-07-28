@@ -34,7 +34,8 @@
       (dispatch [:modal-open "post_names"])))
 
 (defn onLoadPost [id]
-  (do (dispatch [:fetch-post id])))
+  (do (dispatch [:fetch-post id])
+      (closeModal "post_names")))
 
 (defn closeModal [name]
   (dispatch [:modal-close name]))
