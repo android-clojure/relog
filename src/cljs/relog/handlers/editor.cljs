@@ -5,11 +5,12 @@
             [cljs-http.client :as http]
             [cljs.core.async :refer  [<!]]))
 
+(def base-uri "http://localhost:3000/api")
 
 (def-event
   :fetch-post
   (fn [db [_ id]]
-  (go (let [response (<! (http/get (str "http://localhost:3000/api/post/" id)))]
+  (go (let [response (<! (http/get (str base-uri "/post/" id)))]
         (let [json (JSON/parse (:body response))]
           (dispatch [:post-received (js->clj json :keywordize-keys true)]))))
   db))
@@ -29,7 +30,7 @@
 (def-event
   :fetch-all-posts
   (fn [db _]
-  (go (let [response (<! (http/get "http://localhost:3000/api/posts"))]
+  (go (let [response (<! (http/get (str base-uri "/posts")))]
         (let [json (JSON/parse (:body response))]
           (dispatch [:posts-received (js->clj json :keywordize-keys true)]))))
   db))

@@ -5,10 +5,12 @@
             [cljs-http.client :as http]
             [cljs.core.async :refer  [<!]]))
 
+(def base-uri "http://localhost:3000/api")
+
 (def-event
   :fetch-feed
   (fn [db _]
-  (go (let [response (<! (http/get "http://localhost:3000/api/feed"))]
+  (go (let [response (<! (http/get (str base-uri  "/feed")))]
         (let [json (JSON/parse (:body response))]
           (dispatch [:feed-received (js->clj json :keywordize-keys true)]))))
   db))
