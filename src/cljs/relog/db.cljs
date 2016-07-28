@@ -1,3 +1,3 @@
 (ns relog.db)
 
-(def initial-state {:feed [] :posts [] :modals #{}})
+(def initial-state {:feed [] :posts [] :modals #{} :current-post {}})

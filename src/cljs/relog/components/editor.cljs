@@ -6,6 +6,12 @@
             [relog.footer :as footer :refer [Footer]]))
 
 (def-sub
+  :current-post
+  (fn
+    [db _]
+    (:current-post db)))
+
+(def-sub
   :posts
   (fn
     [db _]
@@ -17,23 +23,26 @@
     [db _]
     (:modals db)))
 
-(def markdown (r/atom "## Some Markdown"))
-
-(defn onChange [e]
-  (reset! markdown e.target.value))
+(defn onChange [e currentPost]
+  (dispatch [:change-current-post (assoc currentPost :body e.target.value)]))
 
 (defn onLoad []
   (do (dispatch [:fetch-all-posts])
       (dispatch [:modal-open "post_names"])))
+
+(defn onLoadPost [id]
+  (do (dispatch [:fetch-post id])))
 
 (defn closeModal [name]
   (dispatch [:modal-close name]))
 
 (defn Editor []
   (let [posts (subscribe [:posts])
-        modals (subscribe [:modals])]
+        modals (subscribe [:modals])
+        currentPost (subscribe [:current-post])]
     (fn []
-      (let [postNamesClass (if (contains? @modals "post_names") " active" "")]
+      (let [postNamesClass (if (contains? @modals "post_names") " active" "")
+            currentPostBody (or (:body @currentPost) "")]
         [:div {:className "Editor grid"}
           [:div {:className "Editor_header grid-row"}
             [:div {:className "Editor_header_tools grid-col-xs-6"}
@@ -43,12 +52,12 @@
              [:button {:onClick onLoad} "Load..."]
              [:div {:className (str "Editor_post_names" postNamesClass)}
               (for [post @posts]
-                ^{:key post} [:p (:name post)])
+                ^{:key post} [:p {:className "Editor_post_name" :onClick #(onLoadPost (:id post))} (:name post)])
               [:button {:onClick #(closeModal "post_names")} "X Close"]]]]
           [:div {:className "Editor_surface grid-row"}
             [:div {:className "Editor_markdown grid-col-xs-6"}
              [:textArea {:className "Editor_markdown_area"
-                         :onChange onChange
-                         :defaultValue @markdown}]]
+                         :onChange #(onChange % @currentPost)
+                         :value currentPostBody}]]
             [:div {:className "Editor_rendered Markdown grid-col-xs-6"
-                   :dangerouslySetInnerHTML {:__html (js/marked @markdown)}}]]]))))
+                   :dangerouslySetInnerHTML {:__html (js/marked currentPostBody)}}]]]))))

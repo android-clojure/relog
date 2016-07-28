@@ -5,6 +5,27 @@
             [cljs-http.client :as http]
             [cljs.core.async :refer  [<!]]))
 
+
+(def-event
+  :fetch-post
+  (fn [db [_ id]]
+  (go (let [response (<! (http/get (str "http://localhost:3000/api/post/" id)))]
+        (let [json (JSON/parse (:body response))]
+          (dispatch [:post-received (js->clj json :keywordize-keys true)]))))
+  db))
+
+(def-event
+  :post-received
+  (fn [db [_ postResponse]]
+  (-> db
+      (assoc :current-post postResponse))))
+
+(def-event
+  :change-current-post
+  (fn [db [_ changed]]
+    (-> db
+        (assoc :current-post changed))))
+
 (def-event
   :fetch-all-posts
   (fn [db _]
@@ -15,9 +36,9 @@
 
 (def-event
   :posts-received
-  (fn [db [_ feedResponse]]
+  (fn [db [_ postsResponse]]
   (-> db
-      (assoc :posts feedResponse))))
+      (assoc :posts postsResponse))))
 
 (def modal-middleware [(path :modals) trim-v])
 
