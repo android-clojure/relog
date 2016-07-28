@@ -26,8 +26,8 @@
     [db _]
     (:modals db)))
 
-(defn onChange [e currentPost]
-  (dispatch [:change-current-post (assoc currentPost :body e.target.value)]))
+(defn onChange [e current-post]
+  (dispatch [:change-current-post (assoc current-post :body e.target.value)]))
 
 (defn onLoad []
   (do (dispatch [:fetch-all-posts])
@@ -43,7 +43,7 @@
 (defn Editor []
   (let [posts (subscribe [:posts])
         modals (subscribe [:modals])
-        currentPost (subscribe [:current-post])]
+        current-post (subscribe [:current-post])]
     (r/create-class
       {:component-did-update
         (fn [this]
@@ -51,7 +51,7 @@
        :reagent-render
         (fn []
           (let [postNamesClass (if (contains? @modals "post_names") " active" "")
-                currentPostBody (or (:body @currentPost) "")]
+                currentPostBody (or (:body @current-post) "")]
             [:div {:className "Editor grid"}
               [:div {:className "Editor_header grid-row"}
                 [:div {:className "Editor_header_tools grid-col-xs-6"}
@@ -67,7 +67,7 @@
                 [:div {:className "Editor_markdown grid-col-xs-6"}
                  [:textArea {:ref "ta"
                              :className "Editor_markdown_area"
-                             :onChange #(onChange % @currentPost)
+                             :onChange #(onChange % @current-post)
                              :defaultValue @markdown}]]
                 [:div {:className "Editor_rendered Markdown grid-col-xs-6"
                        :dangerouslySetInnerHTML {:__html (js/marked @markdown)}}]]]))})))
