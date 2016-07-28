@@ -39,10 +39,10 @@
     position: absolute;
     width: 200px;
     height: 150px;
-    background-color: #EBEBEB;
+    background-color: #EFEFEF;
     border-radius: 3px;
-    -webkit-box-shadow: 2px 2px 1px 1px rgba(100,100,100,.3);
-    box-shadow: 2px 2px 1px 1px rgba(100,100,100,.3);
+    -webkit-box-shadow: 3px 3px 2px 1px rgba(100,100,100,.3);
+    box-shadow: 3px 3px 2px 1px rgba(100,100,100,.3);
     margin-top: 5px;
     padding: 10px;
     overflow: scroll;
@@ -50,6 +50,22 @@
 
 .Editor_post_names.active {
     display: block;
+}
+
+.Editor_post_names_close {
+    padding: 0 7px !important;
+    font-size: 1.1em !important;
+}
+
+.Editor_post_name_list {
+    list-style: disc outside none;
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.Editor_post_name {
+    margin-bottom: 10px;
+    cursor: pointer;
 }
 
 .Editor_markdown {

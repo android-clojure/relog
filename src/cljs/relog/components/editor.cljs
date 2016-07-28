@@ -61,9 +61,12 @@
                  [:div {:className "Editor_post_names_container"}
                  [:button {:onClick onLoad} "Load..."]
                  [:div {:className (str "Editor_post_names" postNamesClass)}
-                  (for [post @posts]
-                    ^{:key post} [:p {:className "Editor_post_name" :onClick #(onLoadPost (:id post))} (:name post)])
-                  [:button {:className "Editor_post_names_close" :onClick #(closeModal "post_names")} "X Close"]]]]]
+                  [:div {:className "grid grid-row"}
+                    [:div {:className "grid-col-xs-10"}
+                      [:ul {:className "Editor_post_name_list"} (for [post @posts]
+                        ^{:key post} [:li {:className "Editor_post_name" :onClick #(onLoadPost (:id post))} (:name post)])]]
+                    [:div {:className "grid-col-xs-2"}
+                      [:button {:className "Editor_post_names_close" :onClick #(closeModal "post_names")} "X"]]]]]]]
               [:div {:className "Editor_surface grid-row"}
                 [:div {:className "Editor_markdown grid-col-xs-6"}
                  [:textArea {:ref "ta"
