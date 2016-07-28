@@ -5,11 +5,14 @@
             [relog.header :as header :refer [Header]]
             [relog.footer :as footer :refer [Footer]]))
 
+(def markdown  (r/atom  "## Some Markdown"))
+
 (def-sub
   :current-post
   (fn
     [db _]
-    (:current-post db)))
+    (do (reset! markdown (or (:body (:current-post db)) @markdown))
+    (:current-post db))))
 
 (def-sub
   :posts
@@ -40,24 +43,30 @@
   (let [posts (subscribe [:posts])
         modals (subscribe [:modals])
         currentPost (subscribe [:current-post])]
-    (fn []
-      (let [postNamesClass (if (contains? @modals "post_names") " active" "")
-            currentPostBody (or (:body @currentPost) "")]
-        [:div {:className "Editor grid"}
-          [:div {:className "Editor_header grid-row"}
-            [:div {:className "Editor_header_tools grid-col-xs-6"}
-             [:button "B"]]
-            [:div {:className "Editor_header_actions grid-col-xs-6"}
-             [:button "Save..."]
-             [:button {:onClick onLoad} "Load..."]
-             [:div {:className (str "Editor_post_names" postNamesClass)}
-              (for [post @posts]
-                ^{:key post} [:p {:className "Editor_post_name" :onClick #(onLoadPost (:id post))} (:name post)])
-              [:button {:onClick #(closeModal "post_names")} "X Close"]]]]
-          [:div {:className "Editor_surface grid-row"}
-            [:div {:className "Editor_markdown grid-col-xs-6"}
-             [:textArea {:className "Editor_markdown_area"
-                         :onChange #(onChange % @currentPost)
-                         :value currentPostBody}]]
-            [:div {:className "Editor_rendered Markdown grid-col-xs-6"
-                   :dangerouslySetInnerHTML {:__html (js/marked currentPostBody)}}]]]))))
+    (r/create-class
+      {:component-did-update
+        (fn [this]
+          (set! (-> this .-refs .-ta .-value) @markdown))
+       :reagent-render
+        (fn []
+          (let [postNamesClass (if (contains? @modals "post_names") " active" "")
+                currentPostBody (or (:body @currentPost) "")]
+            [:div {:className "Editor grid"}
+              [:div {:className "Editor_header grid-row"}
+                [:div {:className "Editor_header_tools grid-col-xs-6"}
+                 [:button "B"]]
+                [:div {:className "Editor_header_actions grid-col-xs-6"}
+                 [:button "Save..."]
+                 [:button {:onClick onLoad} "Load..."]
+                 [:div {:className (str "Editor_post_names" postNamesClass)}
+                  (for [post @posts]
+                    ^{:key post} [:p {:className "Editor_post_name" :onClick #(onLoadPost (:id post))} (:name post)])
+                  [:button {:onClick #(closeModal "post_names")} "X Close"]]]]
+              [:div {:className "Editor_surface grid-row"}
+                [:div {:className "Editor_markdown grid-col-xs-6"}
+                 [:textArea {:ref "ta"
+                             :className "Editor_markdown_area"
+                             :onChange #(onChange % @currentPost)
+                             :defaultValue @markdown}]]
+                [:div {:className "Editor_rendered Markdown grid-col-xs-6"
+                       :dangerouslySetInnerHTML {:__html (js/marked @markdown)}}]]]))})))
