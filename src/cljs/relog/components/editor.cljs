@@ -26,6 +26,9 @@
     [db _]
     (:modals db)))
 
+(defn closeModal [name]
+  (dispatch [:modal-close name]))
+
 (defn onChange [e current-post]
   (dispatch [:change-current-post (assoc current-post :body e.target.value)]))
 
@@ -36,9 +39,6 @@
 (defn onLoadPost [id]
   (do (dispatch [:fetch-post id])
       (closeModal "post_names")))
-
-(defn closeModal [name]
-  (dispatch [:modal-close name]))
 
 (defn Editor []
   (let [posts (subscribe [:posts])
@@ -51,18 +51,19 @@
        :reagent-render
         (fn []
           (let [postNamesClass (if (contains? @modals "post_names") " active" "")
-                currentPostBody (or (:body @current-post) "")]
+                noop @current-post]
             [:div {:className "Editor grid"}
               [:div {:className "Editor_header grid-row"}
                 [:div {:className "Editor_header_tools grid-col-xs-6"}
                  [:button "B"]]
                 [:div {:className "Editor_header_actions grid-col-xs-6"}
                  [:button "Save..."]
+                 [:div {:className "Editor_post_names_container"}
                  [:button {:onClick onLoad} "Load..."]
                  [:div {:className (str "Editor_post_names" postNamesClass)}
                   (for [post @posts]
                     ^{:key post} [:p {:className "Editor_post_name" :onClick #(onLoadPost (:id post))} (:name post)])
-                  [:button {:onClick #(closeModal "post_names")} "X Close"]]]]
+                  [:button {:className "Editor_post_names_close" :onClick #(closeModal "post_names")} "X Close"]]]]]
               [:div {:className "Editor_surface grid-row"}
                 [:div {:className "Editor_markdown grid-col-xs-6"}
                  [:textArea {:ref "ta"
