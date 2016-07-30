@@ -1,5 +1,5 @@
 (ns relog.handler
-  (:require [compojure.core :refer [GET defroutes]]
+  (:require [compojure.core :refer [GET POST defroutes]]
             [compojure.route :refer [not-found resources]]
             [clojure.data.json :as json]
             [hiccup.page :refer [include-js include-css html5]]
@@ -43,6 +43,9 @@
   (GET "/api/post/:id" [id] (json/write-str (q/getPost id)
                                        :value-fn my-value-writer
                                        :key-fn name))
+
+  (POST  "/hello" request [] (json/write-str (get-in request [:params])))
+
   (resources "/")
   (not-found loading-page))
 
