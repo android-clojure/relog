@@ -51,7 +51,9 @@
        :reagent-render
         (fn []
           (let [postNamesClass (if (contains? @modals "post_names") " active" "")
-                noop @current-post]
+                current @current-post
+                markdown @markdown
+                posts @posts]
             [:div {:className "Editor grid"}
               [:div {:className "Editor_header grid-row"}
                 [:div {:className "Editor_header_tools grid-col-xs-6"}
@@ -63,7 +65,7 @@
                  [:div {:className (str "Editor_post_names" postNamesClass)}
                   [:div {:className "grid grid-row"}
                     [:div {:className "grid-col-xs-10"}
-                      [:ul {:className "Editor_post_name_list"} (for [post @posts]
+                      [:ul {:className "Editor_post_name_list"} (for [post posts]
                         ^{:key post} [:li {:className "Editor_post_name" :onClick #(onLoadPost (:id post))} (:name post)])]]
                     [:div {:className "grid-col-xs-2"}
                       [:button {:className "Editor_post_names_close" :onClick #(closeModal "post_names")} "X"]]]]]]]
@@ -71,7 +73,7 @@
                 [:div {:className "Editor_markdown grid-col-xs-6"}
                  [:textArea {:ref "ta"
                              :className "Editor_markdown_area"
-                             :onChange #(onChange % @current-post)
-                             :defaultValue @markdown}]]
+                             :onChange #(onChange % current)
+                             :defaultValue markdown}]]
                 [:div {:className "Editor_rendered Markdown grid-col-xs-6"
-                       :dangerouslySetInnerHTML {:__html (js/marked @markdown)}}]]]))})))
+                       :dangerouslySetInnerHTML {:__html (js/marked markdown)}}]]]))})))
