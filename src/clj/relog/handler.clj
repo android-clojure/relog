@@ -1,10 +1,11 @@
 (ns relog.handler
-  (:require [compojure.core :refer [GET POST defroutes]]
+  (:require [compojure.core :refer [GET PUT defroutes]]
             [compojure.route :refer [not-found resources]]
             [clojure.data.json :as json]
             [hiccup.page :refer [include-js include-css html5]]
             [relog.middleware :refer [wrap-middleware]]
             [relog.db.query :as q]
+            [relog.db.transact :as t]
             [config.core :refer [env]]))
 
 (def mount-target
@@ -30,6 +31,11 @@
     (str (java.sql.Timestamp. (.getTime value)))
     value))
 
+(defn my-value-reader [key value]
+  (if (= key :date)
+    (java.sql.Date/valueOf value)
+    value))
+
 (defroutes routes
   (GET "/" [] loading-page)
   (GET "/api/feed" [] (json/write-str (q/getPosts)
@@ -44,7 +50,11 @@
                                        :value-fn my-value-writer
                                        :key-fn name))
 
-  (POST  "/hello" request [] (json/write-str (get-in request [:params])))
+  (PUT  "/api/post/:id" req [] (let [post (get-in req [:params]) id (:id post)]
+                                  (t/savePost post)
+                                  (json/write-str (q/getPost id)
+                                       :value-fn my-value-writer
+                                       :key-fn name)))
 
   (resources "/")
   (not-found loading-page))

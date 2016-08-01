@@ -1,0 +1,14 @@
+(ns relog.db.transact
+  (:require [datomic.api :as d]
+            [clojure.pprint :refer [pprint]]
+            [config.core :refer [env]]))
+
+(defn savePost [to-be-saved]
+  (def conn (d/connect (:db-uri env)))
+  (def db (d/db conn))
+  (def public-id (get-in to-be-saved [:id]))
+  (-> (d/transact
+        conn
+        [[:db/add [:post/public-id public-id]
+          :post/body (:body to-be-saved)]])))
+

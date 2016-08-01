@@ -32,6 +32,9 @@
 (defn onChange [e current-post]
   (dispatch [:change-current-post (assoc current-post :body e.target.value)]))
 
+(defn onSave [current-post]
+  (dispatch [:save-current-post current-post]))
+
 (defn onLoad []
   (do (dispatch [:fetch-all-posts])
       (dispatch [:modal-open "post_names"])))
@@ -59,7 +62,7 @@
                 [:div {:className "Editor_header_tools grid-col-xs-6"}
                  [:button "B"]]
                 [:div {:className "Editor_header_actions grid-col-xs-6"}
-                 [:button "Save..."]
+                 [:button {:onClick #(onSave current)} "Save..."]
                  [:div {:className "Editor_post_names_container"}
                  [:button {:onClick onLoad} "Load..."]
                  [:div {:className (str "Editor_post_names" postNamesClass)}

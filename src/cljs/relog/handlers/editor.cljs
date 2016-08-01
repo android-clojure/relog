@@ -22,6 +22,14 @@
       (assoc :current-post postResponse))))
 
 (def-event
+  :save-current-post
+  (fn [db [_ saved]]
+    (go (let [response (<! (http/put (str base-uri "/post/" (:id saved)) {:json-params saved}))]
+          (let [json (JSON/parse (:body response))]
+            (dispatch [:post-received (js->clj json :keywordize-keys true)]))))
+    db))
+
+(def-event
   :change-current-post
   (fn [db [_ changed]]
     (-> db
