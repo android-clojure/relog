@@ -5,7 +5,8 @@
             [relog.header :as header :refer [Header]]
             [relog.footer :as footer :refer [Footer]]))
 
-(def markdown  (r/atom  "## Some Markdown"))
+(def initial-markdown "## Some Markdown")
+(def markdown  (r/atom  initial-markdown))
 
 (def-sub
   :current-post
@@ -43,6 +44,9 @@
 (defn onCreate [current-post]
   (dispatch [:create-current-post current-post]))
 
+(defn onNew []
+  (dispatch [:change-current-post {:body initial-markdown}]))
+
 (defn onLoad []
   (do (dispatch [:fetch-all-posts])
       (dispatch [:modal-open "post_names"])))
@@ -72,12 +76,13 @@
                 [:div {:className "Editor_header_tools grid-col-xs-6"}
                  [:button "B"]]
                 [:div {:className "Editor_header_actions grid-col-xs-6"}
+                 [:button {:onClick onNew} "New"]
                  [:div {:className "Editor_post_names_container"}
                    [:button {:onClick #(onSave current)} "Save..."]
                    [:div {:className (str "Editor_name_post" namePostClass)}
                     [:div {:className "grid grid-row"}
                      [:div {:className "grid-col-xs-10"}
-                      [:input {:type "text" :placholder "name the post..." :onChange #(onChangeName % current)}]
+                      [:input {:type "text" :placeholder "name the post..." :onChange #(onChangeName % current)}]
                       [:button {:onClick #(onCreate current)} "Create"]]
                      [:div {:className "grid-col-xs-2"}
                       [:button {:className "Editor_post_names_close" :onClick #(closeModal "name_post")} "X"]]]]]
