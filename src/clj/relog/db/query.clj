@@ -16,7 +16,7 @@
                 [?tx :db/txInstant ?date]]
        db)
        (map #(zipmap [:eid :id :name :body :firstName :lastName :date] %))
-       (sort-by :tx)))
+       (sort-by :date)))
 
 (defn getPost [id]
   (def conn (d/connect (:db-uri env)))
@@ -32,7 +32,7 @@
                 [?tx :db/txInstant ?date]]
        db id)
        (map #(zipmap [:eid :id :name :body :firstName :lastName :date] %))
-       (sort-by :tx)
+       (sort-by :date)
        first))
 
 (defn getPostNames []
@@ -44,5 +44,5 @@
                 [?tx :db/txInstant ?date]]
        db)
        (map #(zipmap [:eid :id :name :date] %))
-       (sort-by :tx)))
+       (sort-by :date)))
 
