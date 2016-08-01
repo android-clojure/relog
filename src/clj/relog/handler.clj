@@ -1,12 +1,13 @@
 (ns relog.handler
-  (:require [compojure.core :refer [GET PUT defroutes]]
+  (:require [compojure.core :refer [GET POST PUT defroutes]]
             [compojure.route :refer [not-found resources]]
             [clojure.data.json :as json]
             [hiccup.page :refer [include-js include-css html5]]
             [relog.middleware :refer [wrap-middleware]]
             [relog.db.query :as q]
             [relog.db.transact :as t]
-            [config.core :refer [env]]))
+            [config.core :refer [env]])
+  (:import (java.util UUID)))
 
 (def mount-target
   [:div#app])
@@ -49,6 +50,14 @@
   (GET "/api/post/:id" [id] (json/write-str (q/getPost id)
                                        :value-fn my-value-writer
                                        :key-fn name))
+
+  (POST "/api/post" req [] (let [post (get-in req [:params])
+                                 id (str (UUID/randomUUID))]
+                              (do
+                                (t/createPost id post)
+                                (json/write-str (q/getPost id)
+                                     :value-fn my-value-writer
+                                     :key-fn name))))
 
   (PUT  "/api/post/:id" req [] (let [post (get-in req [:params]) id (:id post)]
                                   (t/savePost post)

@@ -30,6 +30,15 @@
     db))
 
 (def-event
+  :create-current-post
+  (fn [db [_ saved]]
+    (go (let [response (<! (http/post (str base-uri "/post") {:json-params saved}))]
+          (let [json (JSON/parse (:body response))]
+            (dispatch [:post-received (js->clj json :keywordize-keys true)]))))
+    db))
+
+
+(def-event
   :change-current-post
   (fn [db [_ changed]]
     (-> db
