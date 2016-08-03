@@ -34,9 +34,14 @@
     padding: 15px 15px;
 }
 
+.Markdown pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
 .Markdown code {
     background-color: #EBEBEB;
-    padding: 5px 15px;
+    padding: 0 15px;
 }
 
 .Markdown ol {
