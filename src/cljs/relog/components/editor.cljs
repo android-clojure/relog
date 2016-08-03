@@ -6,7 +6,9 @@
             [relog.footer :as footer :refer [Footer]]))
 
 (def initial-markdown "## Some Markdown")
-(def markdown  (r/atom  initial-markdown))
+(def markdown (r/atom  initial-markdown))
+
+(def selection (r/atom {:start 0 :end 0}))
 
 (def-sub
   :current-post
@@ -33,6 +35,13 @@
 (defn onChange [e current-post]
   (dispatch [:change-current-post (assoc current-post :body e.target.value)]))
 
+(defn onSelect [e]
+  (do (reset! selection {:start e.target.selectionStart :end e.target.selectionEnd})
+      (dispatch [:change-current-post (assoc current-post :body e.target.value)])))
+
+(defn hasSelection? []
+  (not= (:start @selection) (:end @selection)))
+
 (defn onChangeName [e current-post]
   (dispatch [:change-current-post (assoc current-post :name e.target.value)]))
 
@@ -55,6 +64,15 @@
   (do (dispatch [:fetch-post id])
       (closeModal "post_names")))
 
+(defn splice-text [sym {start :start end :end} value]
+  (let [a (subs value 0 start) b (subs value start end) c (subs value end (count value))]
+    (str a sym b sym c)))
+
+(defn onStyleSelector [sym current-post]
+  (if (hasSelection?)
+    (let [styled (splice-text sym @selection (:body current-post))]
+      (dispatch [:change-current-post (assoc current-post :body styled)]))))
+
 (defn Editor []
   (let [posts (subscribe [:posts])
         modals (subscribe [:modals])
@@ -70,11 +88,12 @@
                 current @current-post
                 markdown @markdown
                 posts @posts]
-            (.log js/console current)
             [:div {:className "Editor grid"}
               [:div {:className "Editor_header grid-row"}
                 [:div {:className "Editor_header_tools grid-col-xs-6"}
-                 [:button "B"]]
+                 [:button {:onClick #(onStyleSelector "**" current)} "B"]
+                 [:button {:onClick #(onStyleSelector "*" current)} "i"]
+                 [:button {:onClick #(onStyleSelector "`" current)} "<>"]]
                 [:div {:className "Editor_header_actions grid-col-xs-6"}
                  [:button {:onClick onNew} "New"]
                  [:div {:className "Editor_post_names_container"}
@@ -100,6 +119,7 @@
                  [:textArea {:ref "ta"
                              :className "Editor_markdown_area"
                              :onChange #(onChange % current)
+                             :onSelect onSelect
                              :defaultValue markdown}]]
                 [:div {:className "Editor_rendered Markdown grid-col-xs-6"
                        :dangerouslySetInnerHTML {:__html (js/marked markdown)}}]]]))})))

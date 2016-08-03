@@ -34,6 +34,11 @@
     padding: 15px 15px;
 }
 
+.Markdown code {
+    background-color: #EBEBEB;
+    padding: 5px 15px;
+}
+
 .Markdown ol {
     list-style: decimal outside none;
     padding-left: 20px;
