@@ -35,7 +35,7 @@
 (defn onChange [e current-post]
   (dispatch [:change-current-post (assoc current-post :body e.target.value)]))
 
-(defn onSelect [e]
+(defn onSelect [e current-post]
   (do (reset! selection {:start e.target.selectionStart :end e.target.selectionEnd})
       (dispatch [:change-current-post (assoc current-post :body e.target.value)])))
 
@@ -119,7 +119,7 @@
                  [:textArea {:ref "ta"
                              :className "Editor_markdown_area"
                              :onChange #(onChange % current)
-                             :onSelect onSelect
+                             :onSelect #(onSelect % current)
                              :defaultValue markdown}]]
                 [:div {:className "Editor_rendered Markdown grid-col-xs-6"
                        :dangerouslySetInnerHTML {:__html (js/marked markdown)}}]]]))})))
