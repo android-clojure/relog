@@ -3,6 +3,7 @@
             [re-frame.core :refer [def-sub subscribe dispatch]]
             [cljsjs.marked]
             [relog.header :as header :refer [Header]]
+            [relog.editor-tools :as tools :refer [Bold Italic Code JsCodeBlock BulletList Blockquote]]
             [relog.footer :as footer :refer [Footer]]))
 
 (def initial-markdown "## Some Markdown")
@@ -64,13 +65,13 @@
   (do (dispatch [:fetch-post id])
       (closeModal "post_names")))
 
-(defn splice-text [sym {start :start end :end} value]
+(defn splice-text [[start-sym end-sym] {start :start end :end} value]
   (let [a (subs value 0 start) b (subs value start end) c (subs value end (count value))]
-    (str a sym b sym c)))
+    (str a start-sym b end-sym c)))
 
-(defn onStyleSelector [sym current-post]
+(defn onStyleSelector [symbols current-post]
   (if (hasSelection?)
-    (let [styled (splice-text sym @selection (:body current-post))]
+    (let [styled (splice-text symbols @selection (:body current-post))]
       (dispatch [:change-current-post (assoc current-post :body styled)]))))
 
 (defn Editor []
@@ -91,9 +92,12 @@
             [:div {:className "Editor grid"}
               [:div {:className "Editor_header grid-row"}
                 [:div {:className "Editor_header_tools grid-col-xs-6"}
-                 [:button {:onClick #(onStyleSelector "**" current)} "B"]
-                 [:button {:onClick #(onStyleSelector "*" current)} "i"]
-                 [:button {:onClick #(onStyleSelector "`" current)} "<>"]]
+                 [tools/Bold {:onClick #(onStyleSelector % current)}]
+                 [tools/Italic {:onClick #(onStyleSelector % current)}]
+                 [tools/Blockquote {:onClick #(onStyleSelector % current)}]
+                 [tools/Code {:onClick #(onStyleSelector % current)}]
+                 [tools/JsCodeBlock {:onClick #(onStyleSelector % current)}]
+                 [tools/BulletList {:onClick #(onStyleSelector % current)}]]
                 [:div {:className "Editor_header_actions grid-col-xs-6"}
                  [:button {:onClick onNew} "New"]
                  [:div {:className "Editor_post_names_container"}
