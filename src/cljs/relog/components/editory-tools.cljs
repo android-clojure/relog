@@ -2,22 +2,34 @@
   (:require [reagent.core :as r]
             [re-frame.core :refer [dispatch]]))
 
-(defn Bold [{onClick :onClick}]
-  [:button {:onClick #(onClick ["**" "**"])} "B"])
+(defn hasSelection? [selection]
+  (not= (:start selection) (:end selection)))
 
-(defn Italic [{onClick :onClick}]
-  [:button {:onClick #(onClick ["*" "*"])} "i"])
+(defn splice-text [[start-sym end-sym] {start :start end :end} value]
+  (let [a (subs value 0 start) b (subs value start end) c (subs value end (count value))]
+    (str a start-sym b end-sym c)))
 
-(defn Code [{onClick :onClick}]
-  [:button {:onClick #(onClick ["`" "`"])} "<>"])
+(defn onStyleSelector [symbols current-post selection]
+  (if (hasSelection? selection)
+    (let [styled (splice-text symbols selection (:body current-post))]
+      (dispatch [:change-current-post (assoc current-post :body styled)]))))
 
-(defn JsCodeBlock [{onClick :onClick}]
-  [:button {:onClick #(onClick ["```js\n" "\n```"])} "js"])
+(defn Bold [current selection]
+  [:button {:onClick #(onStyleSelector ["**" "**"] current selection)} "B"])
 
-(defn BulletList [{onClick :onClick}]
-  [:button {:onClick #(onClick ["- " ""])} "•••"])
+(defn Italic [current selection]
+  [:button {:onClick #(onStyleSelector ["*" "*"] current selection)} "i"])
 
-(defn Blockquote [{onClick :onClick}]
-  [:button {:onClick #(onClick ["> " ""])} ">"])
+(defn Code [current selection]
+  [:button {:onClick #(onStyleSelector ["`" "`"] current selection)} "<>"])
+
+(defn JsCodeBlock [current selection]
+  [:button {:onClick #(onStyleSelector ["```js\n" "\n```"] current selection)} "js"])
+
+(defn BulletList [current selection]
+  [:button {:onClick #(onStyleSelector ["- " ""] current selection)} "•••"])
+
+(defn Blockquote [current selection]
+  [:button {:onClick #(onStyleSelector ["> " ""] current selection)} ">"])
 
 
