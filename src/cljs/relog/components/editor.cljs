@@ -2,33 +2,16 @@
   (:require [reagent.core :as r]
             [re-frame.core :refer [def-sub subscribe dispatch]]
             [cljsjs.marked]
+            [relog.subs.editor]
             [relog.header :as header :refer [Header]]
             [relog.editor-tools :as tools :refer [Bold Italic Code JsCodeBlock BulletList Blockquote]]
+            [relog.editor-actions :as actions :refer [Save]]
             [relog.footer :as footer :refer [Footer]]))
 
 (def initial-markdown "## Some Markdown")
 (def markdown (r/atom  initial-markdown))
 
 (def selection (r/atom {:start 0 :end 0}))
-
-(def-sub
-  :current-post
-  (fn
-    [db _]
-    (do (reset! markdown (or (:body (:current-post db)) @markdown))
-    (:current-post db))))
-
-(def-sub
-  :posts
-  (fn
-    [db _]
-    (:posts db)))
-
-(def-sub
-  :modals
-  (fn
-    [db _]
-    (:modals db)))
 
 (defn closeModal [name]
   (dispatch [:modal-close name]))
@@ -42,17 +25,6 @@
 
 (defn hasSelection? []
   (not= (:start @selection) (:end @selection)))
-
-(defn onChangeName [e current-post]
-  (dispatch [:change-current-post (assoc current-post :name e.target.value)]))
-
-(defn onSave [current-post]
-  (if (:name current-post)
-    (dispatch [:save-current-post current-post])
-    (dispatch [:modal-open "name_post"])))
-
-(defn onCreate [current-post]
-  (dispatch [:create-current-post current-post]))
 
 (defn onNew []
   (dispatch [:change-current-post {:body initial-markdown}]))
@@ -81,12 +53,12 @@
     (r/create-class
       {:component-did-update
         (fn [this]
-          (set! (-> this .-refs .-ta .-value) @markdown))
+          (set! (-> this .-refs .-ta .-value) (or (:body @current-post) @markdown)))
        :reagent-render
         (fn []
           (let [postNamesClass (if (contains? @modals "post_names") " active" "")
-                namePostClass (if (contains? @modals "name_post") " active" "")
                 current @current-post
+                body (:body @current-post)
                 markdown @markdown
                 posts @posts]
             [:div {:className "Editor grid"}
@@ -100,15 +72,7 @@
                  [tools/BulletList {:onClick #(onStyleSelector % current)}]]
                 [:div {:className "Editor_header_actions grid-col-xs-6"}
                  [:button {:onClick onNew} "New"]
-                 [:div {:className "Editor_post_names_container"}
-                   [:button {:onClick #(onSave current)} "Save..."]
-                   [:div {:className (str "Editor_name_post" namePostClass)}
-                    [:div {:className "grid grid-row"}
-                     [:div {:className "grid-col-xs-10"}
-                      [:input {:type "text" :placeholder "name the post..." :onChange #(onChangeName % current)}]
-                      [:button {:onClick #(onCreate current)} "Create"]]
-                     [:div {:className "grid-col-xs-2"}
-                      [:button {:className "Editor_post_names_close" :onClick #(closeModal "name_post")} "X"]]]]]
+                 [actions/Save]
                  [:div {:className "Editor_post_names_container"}
                    [:button {:onClick onLoad} "Load..."]
                    [:div {:className (str "Editor_post_names" postNamesClass)}
@@ -126,4 +90,4 @@
                              :onSelect #(onSelect % current)
                              :defaultValue markdown}]]
                 [:div {:className "Editor_rendered Markdown grid-col-xs-6"
-                       :dangerouslySetInnerHTML {:__html (js/marked markdown)}}]]]))})))
+                       :dangerouslySetInnerHTML {:__html (js/marked (or body markdown))}}]]]))})))
