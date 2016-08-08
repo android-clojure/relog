@@ -9,13 +9,13 @@
   (let [a (subs value 0 start) b (subs value start end) c (subs value end (count value))]
     (str a start-sym b end-sym c)))
 
-(defn onStyleSelector [symbols current-post selection]
+(defn onClickStyleSelector [symbols current-post selection]
   (if (hasSelection? selection)
     (let [styled (splice-text symbols selection (:body current-post))]
       (dispatch [:change-current-post (assoc current-post :body styled)]))))
 
-(defn styleSelector [symbols props]
-  #(apply (partial onStyleSelector symbols) props))
+(defn styleSelector [symbols [current selection]]
+  #(onClickStyleSelector symbols current selection))
 
 (defn Bold [& props]
   [:button {:onClick (styleSelector ["**" "**"] props)} "B"])
