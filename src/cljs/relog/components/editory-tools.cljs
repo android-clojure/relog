@@ -14,22 +14,25 @@
     (let [styled (splice-text symbols selection (:body current-post))]
       (dispatch [:change-current-post (assoc current-post :body styled)]))))
 
-(defn Bold [current selection]
-  [:button {:onClick #(onStyleSelector ["**" "**"] current selection)} "B"])
+(defn styleSelector [symbols props]
+  #(apply (partial onStyleSelector symbols) props))
 
-(defn Italic [current selection]
-  [:button {:onClick #(onStyleSelector ["*" "*"] current selection)} "i"])
+(defn Bold [& props]
+  [:button {:onClick (styleSelector ["**" "**"] props)} "B"])
 
-(defn Code [current selection]
-  [:button {:onClick #(onStyleSelector ["`" "`"] current selection)} "<>"])
+(defn Italic [& props]
+  [:button {:onClick (styleSelector ["*" "*"] props)} "i"])
 
-(defn JsCodeBlock [current selection]
-  [:button {:onClick #(onStyleSelector ["```js\n" "\n```"] current selection)} "js"])
+(defn Code [& props]
+  [:button {:onClick (styleSelector ["`" "`"] props)} "<>"])
 
-(defn BulletList [current selection]
-  [:button {:onClick #(onStyleSelector ["- " ""] current selection)} "•••"])
+(defn JsCodeBlock [& props]
+  [:button {:onClick (styleSelector ["```js\n" "\n```"] props)} "js"])
 
-(defn Blockquote [current selection]
-  [:button {:onClick #(onStyleSelector ["> " ""] current selection)} ">"])
+(defn BulletList [& props]
+  [:button {:onClick (styleSelector ["- " ""] props)} "•••"])
+
+(defn Blockquote [& props]
+  [:button {:onClick (styleSelector ["> " ""] props)} ">"])
 
 
