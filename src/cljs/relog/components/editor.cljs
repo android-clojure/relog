@@ -1,8 +1,7 @@
 (ns relog.editor
   (:require [reagent.core :as r]
-            [re-frame.core :refer [def-sub subscribe dispatch]]
+            [re-frame.core :refer [subscribe]]
             [cljsjs.marked]
-            [relog.subs.editor]
             [relog.header :as header :refer [Header]]
             [relog.editor-surface :as surface :refer [Surface]]
             [relog.editor-tools :as tools :refer [Bold Italic Code JsCodeBlock BulletList Blockquote]]

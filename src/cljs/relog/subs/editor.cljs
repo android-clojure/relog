@@ -6,9 +6,7 @@
   :current-post
   (fn
     [db _]
-    (do 
-      ;(reset! markdown (or (:body (:current-post db)) @markdown))
-      (:current-post db))))
+      (:current-post db)))
 
 (def-sub
   :posts

@@ -9,6 +9,7 @@
               [relog.handlers.init]
               [relog.handlers.feed]
               [relog.handlers.editor]
+              [relog.subs.editor]
               [cljsjs.marked]
               [cljsjs.highlight]
               [cljsjs.highlight.langs.javascript]))

@@ -16,8 +16,8 @@
         (fn [this]
           (set! (-> this .-refs .-ta .-value) (or (:body @current-post) default-body)))
       :reagent-render
-        (let [current @current-post]
-          (fn [default-body onSelection]
+        (fn [default-body onSelection]
+          (let [current @current-post]
             [:textArea {:ref "ta"
                        :className "Editor_markdown_area"
                        :onChange #(onChange % current)
