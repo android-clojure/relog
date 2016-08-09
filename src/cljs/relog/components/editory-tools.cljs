@@ -17,6 +17,15 @@
 (defn styleSelector [symbols [current selection]]
   #(onClickStyleSelector symbols current selection))
 
+(defn Toolbar [current selection]
+  [:div {:className "Editor_header_tools"}
+   [Bold current selection]
+   [Italic current selection]
+   [Blockquote current selection]
+   [Code current selection]
+   [JsCodeBlock current selection]
+   [BulletList current selection]])
+
 (defn Bold [& props]
   [:button {:onClick (styleSelector ["**" "**"] props)} "B"])
 

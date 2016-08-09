@@ -18,8 +18,9 @@
       :reagent-render
         (fn [default-body onSelection]
           (let [current @current-post]
-            [:textArea {:ref "ta"
-                       :className "Editor_markdown_area"
-                       :onChange #(onChange % current)
-                       :onSelect #(onSelect % current onSelection)
-                       :defaultValue default-body}]))})))
+            [:div {:className "Editor_markdown"}
+              [:textArea {:ref "ta"
+                         :className "Editor_markdown_area"
+                         :onChange #(onChange % current)
+                         :onSelect #(onSelect % current onSelection)
+                         :defaultValue default-body}]]))})))

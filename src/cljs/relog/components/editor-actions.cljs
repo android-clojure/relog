@@ -9,9 +9,15 @@
 (defn closeModal [name]
   (dispatch [:modal-close name]))
 
+;; Toolbar
+(defn Toolbar []
+  [:div {:className "Editor_header_actions"}
+   [New]
+   [Save]
+   [Load]])
+
 ;; Save
 (defn onSave [current-post]
-  (.log js/console current-post)
   (if (:name current-post)
     (dispatch [:save-current-post current-post])
     (dispatch [:modal-open "name_post"])))
